@@ -42,15 +42,13 @@ db.once("open", () => console.log("Connected to Database"));
 app.post("/sign_up", async (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
-  const sport = req.body.sport;
-
+  
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
     const data = {
       name: name,
       email: email,
-      sport: sport,
       password: hashedPassword,
       type: 1,
     };
@@ -85,7 +83,7 @@ app.post("/login", async (req, res) => {
     try {
       // Login successful
       if (await bcrypt.compare(password, user.password)) {
-        res.json({ status: 1, name: user.name, sport: user.sport });
+        res.json({ status: 1, name: user.name});
       } else res.json({ status: 3 }); // Incorrect Password
     } catch {
       res.json({ status: -1 }); // unknown error
